@@ -64,5 +64,17 @@ struct upo_bst_s
  */
 static void upo_bst_clear_impl(upo_bst_node_t*, int destroy_data);
 
+/* TO STUDENTS:
+     *  Prototypes basic functions for bst
+     *  Implemented by https://github.com/LukeAz
+ */
+upo_bst_node_t* new_node(void *key, void *value);
+void* upo_bst_put_impl(upo_bst_node_t *node, void *key, void *value, void *v_old, upo_bst_comparator_t cmp);
+void* upo_bst_insert_impl(upo_bst_node_t *node, void *key, void *value, upo_bst_comparator_t cmp);
+void* upo_bst_get_impl(upo_bst_node_t *node, const void *key, upo_bst_comparator_t cmp);
+void* upo_bst_delete_impl(upo_bst_node_t *node, const void *key, int destroy_data, upo_bst_comparator_t cmp);
+void* upo_bst_delete_impl_1(upo_bst_node_t *node, int destroy_data);
+void* upo_bst_delete_impl_2(upo_bst_node_t *node, int destroy_data, upo_bst_comparator_t cmp);
+void* upo_bst_max_impl(upo_bst_node_t *node);
 
 #endif /* UPO_BST_PRIVATE_H */

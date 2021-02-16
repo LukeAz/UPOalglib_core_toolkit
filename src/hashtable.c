@@ -388,54 +388,164 @@ void upo_ht_linprob_clear(upo_ht_linprob_t ht, int destroy_data)
 
 void* upo_ht_linprob_put(upo_ht_linprob_t ht, void *key, void *value)
 {
+   /* TO STUDENTS:
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (ht == NULL || ht->slots == NULL) 
+        return NULL;
+
     void *old_value = NULL;
+    size_t index, h_tomb;
+    int found_tomb = 0;
+    
+    if(upo_ht_linprob_load_factor(ht) >= 0.5)
+        upo_ht_linprob_resize(ht, ht->capacity *2);
 
-    /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+    index = ht->key_hash(key, ht -> capacity);
 
+    while(((ht -> slots + index) -> key != NULL && ht->key_cmp(key, (ht -> slots + index) -> key) != 0) || (ht -> slots + index)-> tombstone == 1) {
+        if((ht -> slots + index) -> tombstone && !found_tomb) {
+            found_tomb = 1;
+            h_tomb = index;
+        }
+        index = (index+1) % ht->capacity;  
+    }
+
+    if((ht -> slots + index) -> key == NULL) {
+        if(found_tomb)
+            index = h_tomb;
+        (ht -> slots + index) -> key = key;
+        (ht -> slots + index) -> value = value;
+        (ht -> slots + index) -> tombstone = 0;
+        ht->size++;
+    } else {
+        old_value =  (ht -> slots + index) -> value;
+        (ht -> slots + index) -> value = value;
+    }
     return old_value;
 }
 
 void upo_ht_linprob_insert(upo_ht_linprob_t ht, void *key, void *value)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (ht == NULL || ht->slots == NULL) 
+        return;
+
+    size_t index, h_tomb;
+    int found_tomb = 0;
+
+    if(upo_ht_linprob_load_factor(ht) >= 0.5)
+        upo_ht_linprob_resize(ht, ht->capacity *2);
+
+    index = ht->key_hash(key, ht -> capacity);
+
+    while(((ht -> slots + index) -> key != NULL && ht->key_cmp(key, (ht -> slots + index) -> key) != 0) || (ht -> slots + index)-> tombstone == 1) {
+        if((ht -> slots + index) -> tombstone && !found_tomb) {
+            found_tomb = 1;
+            h_tomb = index;
+        }
+        index = (index+1) % ht->capacity;  
+    }
+
+    if((ht -> slots + index) -> key == NULL) {
+        if(found_tomb)
+            index = h_tomb;
+        (ht -> slots + index) -> key = key;
+        (ht -> slots + index) -> value = value;
+        (ht -> slots + index) -> tombstone = 0;
+        ht->size++;
+    } 
 }
 
 void* upo_ht_linprob_get(const upo_ht_linprob_t ht, const void *key)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht == NULL || ht->slots == NULL) 
+        return NULL;
+    
+    size_t head = ht->key_hash(key, ht -> capacity);
+    
+    while(((ht -> slots + head) -> key != NULL && ht->key_cmp(key, (ht -> slots + head) -> key) != 0) || (ht -> slots + head)-> tombstone == 1)
+        head = (head+1) % ht->capacity;
+    
+    if((ht -> slots + head) -> key != NULL)
+        return (ht -> slots + head) -> value;
+    return NULL;
 }
 
 int upo_ht_linprob_contains(const upo_ht_linprob_t ht, const void *key)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht == NULL || ht->slots == NULL) 
+        return 0;
+    
+    size_t head = ht->key_hash(key, ht -> capacity);
+    
+    while(((ht -> slots + head) -> key != NULL && ht->key_cmp(key, (ht -> slots + head) -> key) != 0) || (ht -> slots + head)-> tombstone == 1)
+        head = (head+1) % ht->capacity;
+    
+    if((ht -> slots + head) -> key != NULL)
+        return 1;
+    return 0;
 }
 
 void upo_ht_linprob_delete(upo_ht_linprob_t ht, const void *key, int destroy_data)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht == NULL || ht->slots == NULL) 
+        return;
+    
+    size_t head = ht->key_hash(key, ht -> capacity);
+
+    while(((ht -> slots + head) -> key != NULL && ht->key_cmp(key, (ht -> slots + head) -> key) != 0) || (ht -> slots + head)-> tombstone == 1)
+        head = (head+1) % ht->capacity;  
+
+    if((ht -> slots + head) -> key != NULL) {
+        (ht -> slots + head) -> key = NULL;
+        (ht -> slots + head) -> value = NULL;
+        (ht -> slots + head) -> tombstone = 1;
+        ht->size--;
+        if(upo_ht_linprob_load_factor(ht) <= 0.125)
+            upo_ht_linprob_resize(ht, ht->capacity / 2);
+        if(destroy_data) 
+            free(ht -> slots + head);        
+    } 
 }
 
 size_t upo_ht_linprob_size(const upo_ht_linprob_t ht)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht != NULL) 
+        return ht->size; 
+    return 0;
 }
 
 int upo_ht_linprob_is_empty(const upo_ht_linprob_t ht)

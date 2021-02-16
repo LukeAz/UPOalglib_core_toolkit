@@ -30,7 +30,7 @@
 
 
 #include <upo/bst.h>
-
+#include <stdlib.h>
 
 /** \brief Alias for binary search tree node type. */
 typedef struct upo_bst_node_s upo_bst_node_t;

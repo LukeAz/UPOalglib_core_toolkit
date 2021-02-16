@@ -77,4 +77,13 @@ void* upo_bst_delete_impl_1(upo_bst_node_t *node, int destroy_data);
 void* upo_bst_delete_impl_2(upo_bst_node_t *node, int destroy_data, upo_bst_comparator_t cmp);
 void* upo_bst_max_impl(upo_bst_node_t *node);
 
+upo_bst_node_t* newNode(void *key, void *value) {
+    upo_bst_node_t *node = malloc(sizeof(upo_bst_node_t));
+    node -> value = value;
+    node -> key = key;
+    node -> left = NULL;
+    node -> right = NULL;
+    return node;
+}
+
 #endif /* UPO_BST_PRIVATE_H */

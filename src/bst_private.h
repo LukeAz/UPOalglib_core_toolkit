@@ -75,6 +75,10 @@ void* upo_bst_get_impl(upo_bst_node_t *node, const void *key, upo_bst_comparator
 void* upo_bst_delete_impl(upo_bst_node_t *node, const void *key, int destroy_data, upo_bst_comparator_t cmp);
 void* upo_bst_delete_impl_1(upo_bst_node_t *node, int destroy_data);
 void* upo_bst_delete_impl_2(upo_bst_node_t *node, int destroy_data, upo_bst_comparator_t cmp);
+size_t upo_bst_size_impl(upo_bst_node_t *node);
+size_t upo_bst_height_impl(upo_bst_node_t *node);
+int upo_bst_is_leaf_impl(upo_bst_node_t *node);
+void upo_bst_traverse_in_order_impl(upo_bst_node_t *node, upo_bst_visitor_t visit, void *visit_context);
 void* upo_bst_max_impl(upo_bst_node_t *node);
 
 upo_bst_node_t* newNode(void *key, void *value) {

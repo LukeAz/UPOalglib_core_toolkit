@@ -50,10 +50,10 @@
  *  Implemented by https://github.com/LukeAz
  */
 
-static void upoMerge(void *base, size_t low, size_t mid, size_t high, size_t size, upo_sort_comparator_t cmp);
-static void upoMergeSortRec(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
-static void upoQuickSortRec(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
-static size_t upoQuickSortPartition(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
+static void upo_merge(void *base, size_t low, size_t mid, size_t high, size_t size, upo_sort_comparator_t cmp);
+static void upo_merge_sort_rec(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
+static void upo_quick_sort_rec(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
+static size_t upo_quick_sort_partition(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
 void upoSwap(void *a, void *b, size_t n);
 void upoCopy(void *a, void *b, size_t n);
 

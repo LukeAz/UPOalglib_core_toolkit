@@ -29,6 +29,7 @@
 #define UPO_SORT_PRIVATE_H
 
 #include <upo/sort.h>
+#include <stdlib.h>
 
 
 /* TO STUDENTS:

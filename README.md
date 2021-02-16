@@ -37,7 +37,6 @@ $ valgrind --tool=memcheck --leak-check=full ./test/test_stack
 * Postfix eval with stack
 ```
 $ make clean apps
-$ ./apps/postfix_eval
 $ ./apps/postfix_eval -f data/postfix.txt
 $ valgrind --tool=memcheck --leak-check=full ./apps/postfix_eval -f data/postfix.txt
 ```

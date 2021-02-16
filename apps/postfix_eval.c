@@ -41,9 +41,95 @@
 int eval_postfix(const char *expr, long *res)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    size_t flag = 0;
+    long int *result, *num;
+    char symbol;
+    upo_stack_t stack = NULL;
+    
+    stack = upo_stack_create();
+    if(stack!=NULL) {
+        printf("--------------------------------------------------------\n");
+        printf("-String analized: '%s'\n", expr);
+        while (sscanf(expr, "%c", &symbol)!=EOF) {
+            if(symbol >= '0' && symbol <= '9') {
+                num = malloc(sizeof(long int)); 
+                sscanf(expr, "%ld", num);
+                upo_stack_push(stack, num);
+            } else {
+                printf("Symbol: %c\n",symbol);
+                switch(symbol) {
+                    case '+':
+                        result = malloc(sizeof(long int));
+                        *result = *(long int *) upo_stack_top(stack);
+                        upo_stack_pop(stack, 1);
+                        *result += *(long int *) upo_stack_top(stack);
+                        printf("-Risult sum: %ld\n", *result);
+                        upo_stack_pop(stack, 1);
+                        upo_stack_push(stack, result);
+                        break;
+                    case '-':
+                        result = malloc(sizeof(long int));
+                        *result = *(long int *) upo_stack_top(stack);
+                        upo_stack_pop(stack, 1);
+                        *result = *(long int *) upo_stack_top(stack) - *result;
+                        printf("-Risult sub: %ld\n", *result);
+                        upo_stack_pop(stack, 1);
+                        upo_stack_push(stack, result);
+                        break;
+                    case '*':
+                        result = malloc(sizeof(long int));
+                        *result = *(long int *) upo_stack_top(stack);
+                        upo_stack_pop(stack, 1);
+                        *result *= *(long int *) upo_stack_top(stack);
+                        printf("-Multiplication result: %ld\n", *result);
+                        upo_stack_pop(stack, 1);
+                        upo_stack_push(stack, result);
+                        break;
+                    case '/':
+                        result = malloc(sizeof(long int));
+                        *result = *(long int *) upo_stack_top(stack);
+                        upo_stack_pop(stack, 1);
+                        *result /= *(long int *) upo_stack_top(stack);
+                        printf("-Division result: %ld\n", *result);
+                        upo_stack_pop(stack, 1);
+                        upo_stack_push(stack, result);
+                        break;
+                    case '%':
+                        result = malloc(sizeof(long int));
+                        *result = *(long int *) upo_stack_top(stack);
+                        upo_stack_pop(stack, 1);
+                        *result = *(long int *) upo_stack_top(stack) % *result;
+                        printf("-Module result: %ld\n", *result);
+                        upo_stack_pop(stack, 1);
+                        upo_stack_push(stack, result);
+                        break;
+                    case '^':
+                        result = malloc(sizeof(long int));
+                        *result = *(long int *) upo_stack_top(stack);
+                        upo_stack_pop(stack, 1);
+                        *result = pow (*(long int *) upo_stack_top(stack), *result);
+                        printf("-Potency result: %ld\n", *result);
+                        upo_stack_pop(stack, 1);
+                        upo_stack_push(stack, result);
+                        break;
+                    default:
+                        fprintf(stderr, "Error: malformed expression\n");
+                        abort();
+                }
+            }
+            expr = strstr(expr, " ") + 1;
+        }
+        if (upo_stack_size(stack)) {
+            *res = *(long int *) upo_stack_top(stack);
+            upo_stack_pop(stack, 1);
+            flag = 1;
+        }
+    }
 }
 
 void eval_lines(FILE *fp)

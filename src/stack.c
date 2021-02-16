@@ -51,41 +51,83 @@ void upo_stack_destroy(upo_stack_t stack, int destroy_data)
 void upo_stack_push(upo_stack_t stack, void *data)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    upo_stack_node_t *nodePtr=NULL;
+    
+    if(stack!=NULL && data!=NULL) {
+        nodePtr = malloc(sizeof(struct upo_stack_node_s)); 
+        nodePtr->data = data;
+        nodePtr->next = stack->top;
+
+        stack->top = nodePtr;
+        stack->size += 1;
+    }
 }
 
 void upo_stack_pop(upo_stack_t stack, int destroy_data)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    upo_stack_node_t *nodePtr=NULL;
+    
+    if(stack!=NULL) {
+        nodePtr = stack->top;
+        stack->top = stack->top->next;
+        if (destroy_data)
+            free(nodePtr->data);
+        free(nodePtr);
+        
+        stack->size -= 1;
+    }
 }
 
 void* upo_stack_top(const upo_stack_t stack)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */    
+    if(stack!=NULL) 
+        if (stack->top != NULL)
+            return stack->top->data;
+    return NULL:
 }
 
 int upo_stack_is_empty(const upo_stack_t stack)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */   
+    if(stack != NULL)
+        if(stack->top != NULL)
+            return 0;
+    return 1;
 }
 
 size_t upo_stack_size(const upo_stack_t stack)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */   
+    if(stack!=NULL)
+        return stack->size;
+    return 0;
 }
 
 void upo_stack_clear(upo_stack_t stack, int destroy_data)
@@ -100,7 +142,21 @@ void upo_stack_clear(upo_stack_t stack, int destroy_data)
      */
 
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */  
+    upo_stack_node_t *nodePtr = NULL;
+    
+    if (stack != NULL) {
+        while(stack->top != NULL) {
+            nodePtr = stack->top;
+            stack->top = stack->top->next;
+            if (destroy_data) 
+                free(nodePtr->data);
+            free(nodePtr);
+        }
+        stack->size = 0;
+    }
 }

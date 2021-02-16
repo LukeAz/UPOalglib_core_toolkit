@@ -622,33 +622,115 @@ void upo_ht_linprob_resize(upo_ht_linprob_t ht, size_t n)
 upo_ht_key_list_t upo_ht_sepchain_keys(const upo_ht_sepchain_t ht)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (ht == NULL || ht->slots == NULL) 
+        return NULL;
+    
+    upo_ht_sepchain_list_node_t *node = NULL;
+    upo_ht_key_list_t list = NULL, end = NULL; 
+
+    for(size_t i = 0, first=1; i < ht->capacity; ++i) {
+        if((ht->slots+i) -> head != NULL) {
+            node = (ht->slots+i) -> head;
+            while(node!=NULL) {
+                if(first) {
+                    list = malloc(sizeof(upo_ht_key_list_t));
+                    list -> key = node->key;
+                    end = list;
+                    node = node -> next;
+                    first = 0;
+                } else {
+                    end -> next = malloc(sizeof(upo_ht_key_list_t));
+                    end = end -> next; 
+                    end -> key = node->key;
+                    node = node->next;
+                }
+            }
+        }
+    }
+    if (end != NULL)
+        end->next = NULL;
+
+    return list;
 }
 
 void upo_ht_sepchain_traverse(const upo_ht_sepchain_t ht, upo_ht_visitor_t visit, void *visit_context)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (ht == NULL || ht->slots == NULL) 
+        return;
+    
+    upo_ht_sepchain_list_node_t *node = NULL;
+
+    for(size_t i = 0; i < ht->capacity; ++i) {
+        if((ht->slots+i) != NULL) {
+            node = (ht->slots+i) -> head;
+            while(node!=NULL) {
+                visit(node->key, node->value, visit_context);
+                node = node->next;
+            }
+        }
+    }
 }
 
 upo_ht_key_list_t upo_ht_linprob_keys(const upo_ht_linprob_t ht)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (ht == NULL || ht->slots == NULL) 
+        return NULL;
+    
+    upo_ht_key_list_t list = NULL, end = NULL; 
+
+    for(size_t i = 0, first = 1; i < ht->capacity; ++i) {
+        if((ht->slots+i)->tombstone==0 && (ht->slots+i)->key!=NULL) {
+            if(first) {
+                list = malloc(sizeof(upo_ht_key_list_t));
+                list -> key = (ht->slots+i) ->key;
+                end = list;
+                first = 0;
+            } else {
+                end -> next = malloc(sizeof(upo_ht_key_list_t));
+                end = end -> next; 
+                end -> key = (ht->slots+i) ->key;
+            }
+        }
+    }
+    if (end != NULL)
+        end->next = NULL;
+
+    return list;
 }
 
 void upo_ht_linprob_traverse(const upo_ht_linprob_t ht, upo_ht_visitor_t visit, void *visit_context)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (ht == NULL || ht->slots == NULL) 
+        return;
+    
+    for(size_t i = 0; i < ht->capacity; ++i) {
+        if((ht->slots+i)->tombstone==0 && (ht->slots+i)->key!=NULL) {
+            visit((ht->slots+i)->key, (ht->slots+i)->value, visit_context);
+        }
+    }
 }
 
 

@@ -123,54 +123,151 @@ void upo_ht_sepchain_clear(upo_ht_sepchain_t ht, int destroy_data)
 
 void* upo_ht_sepchain_put(upo_ht_sepchain_t ht, void *key, void *value)
 {
-    void *old_value = NULL;
-
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    void *old_value = NULL;
+    
+    if(ht!=NULL && ht -> slots!=NULL) {
+        size_t index = ht->key_hash(key, ht -> capacity);
+        upo_ht_sepchain_list_node_t *node = (ht -> slots + index)-> head;
 
+        while(node != NULL && ht->key_cmp(key,node->key) != 0) 
+            node = node->next;
+
+        if(node == NULL) {
+            node = malloc(sizeof(upo_ht_sepchain_list_node_t));
+            node -> key = key;
+            node -> value = value;
+            node -> next = (ht -> slots + index) -> head;
+            (ht -> slots + index) -> head = node;
+            ht->size++;
+        } else {
+            old_value = node->value;
+            node->value = value;
+        }
+    }
+    
     return old_value;
+    
 }
 
 void upo_ht_sepchain_insert(upo_ht_sepchain_t ht, void *key, void *value)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht!=NULL && ht -> slots!=NULL) {
+        size_t index = ht->key_hash(key, ht -> capacity);
+        upo_ht_sepchain_list_node_t *node = (ht -> slots + index) -> head;
+
+        while(node != NULL && ht->key_cmp(key,node->key) != 0) 
+            node = node->next;
+        if(node == NULL) {
+            node = malloc(sizeof(upo_ht_sepchain_list_node_t));
+            node -> key = key;
+            node -> value = value;
+            node -> next = (ht -> slots + index) -> head;
+            (ht -> slots + index) -> head = node;
+            ht->size++;
+        } 
+    }
 }
 
 void* upo_ht_sepchain_get(const upo_ht_sepchain_t ht, const void *key)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht!=NULL && ht -> slots!=NULL) {
+        size_t index = ht->key_hash(key, ht -> capacity);
+        upo_ht_sepchain_list_node_t *node = (ht -> slots + index) -> head;
+        
+        while(node!=NULL && ht->key_cmp(key,node->key) != 0)
+            node = node->next;
+        
+        if(node != NULL)
+            return node->value;
+    }
+    return NULL;
 }
 
 int upo_ht_sepchain_contains(const upo_ht_sepchain_t ht, const void *key)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht!=NULL && ht -> slots!=NULL) {
+        size_t index = ht->key_hash(key, ht -> capacity);
+        upo_ht_sepchain_list_node_t *node = (ht -> slots + index) -> head;
+        
+        while(node!=NULL && ht->key_cmp(key,node->key) != 0)
+            node = node->next;
+        
+        if(node != NULL)
+            return 1;
+    }
+    return 0;
 }
 
 void upo_ht_sepchain_delete(upo_ht_sepchain_t ht, const void *key, int destroy_data)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht!=NULL && ht -> slots!=NULL) {
+        size_t index = ht->key_hash(key, ht -> capacity);
+        upo_ht_sepchain_list_node_t *node = (ht -> slots + index) -> head;
+        upo_ht_sepchain_list_node_t *p = NULL;
+        
+        while(node!=NULL && ht->key_cmp(key,node->key) != 0) {
+            p = node;
+            node = node->next;
+        }
+        
+        if(node!=NULL) {
+            if(p == NULL) 
+                (ht -> slots + index) -> head = node->next;
+            else
+                p->next = node->next;
+            
+            if(destroy_data == 1) {
+                free(node->key);
+                free(node->next);
+                free(node->value);
+            }
+            free(node);
+            ht->size--;
+        }
+    }
 }
 
 size_t upo_ht_sepchain_size(const upo_ht_sepchain_t ht)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(ht != NULL)
+        return ht->size;
+    return 0;
 }
 
 int upo_ht_sepchain_is_empty(const upo_ht_sepchain_t ht)

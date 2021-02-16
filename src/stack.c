@@ -100,7 +100,7 @@ void* upo_stack_top(const upo_stack_t stack)
     if(stack!=NULL) 
         if (stack->top != NULL)
             return stack->top->data;
-    return NULL:
+    return NULL;
 }
 
 int upo_stack_is_empty(const upo_stack_t stack)

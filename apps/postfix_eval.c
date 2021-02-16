@@ -130,6 +130,7 @@ int eval_postfix(const char *expr, long *res)
             flag = 1;
         }
     }
+    return flag;
 }
 
 void eval_lines(FILE *fp)

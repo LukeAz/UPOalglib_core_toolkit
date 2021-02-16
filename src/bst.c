@@ -349,9 +349,30 @@ int upo_bst_is_empty(const upo_bst_t tree)
 void* upo_bst_min(const upo_bst_t tree)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (tree == NULL)
+        return NULL;
+
+    upo_bst_node_t *min = upo_bst_min_impl(tree->root);
+    if(min != NULL)
+        return min->key;
+    return NULL;
+}
+
+void* upo_bst_min_impl(upo_bst_node_t *node) {
+    /* TO STUDENTS:
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(node == NULL)
+        return NULL;
+    
+    if(node->left != NULL)
+        return upo_bst_min_impl(node->left);
+    return node;
 }
 
 void* upo_bst_max(const upo_bst_t tree)
@@ -375,10 +396,10 @@ void* upo_bst_max_impl(upo_bst_node_t *node) {
     /* TO STUDENTS:
      *  Implemented by https://github.com/LukeAz
     */
-    if (node == NULL) 
+    if(node == NULL)
         return NULL;
-
-    if(node != NULL && node->right != NULL)
+    
+    if(node->right != NULL)
         return upo_bst_max_impl(node->right); 
     return node;
 }
@@ -386,59 +407,198 @@ void* upo_bst_max_impl(upo_bst_node_t *node) {
 void upo_bst_delete_min(upo_bst_t tree, int destroy_data)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(tree!=NULL) {
+        upo_bst_node_t *min = upo_bst_min(tree);
+        if (min != NULL)
+            upo_bst_delete(tree, min, destroy_data);
+    }
 }
 
 void upo_bst_delete_max(upo_bst_t tree, int destroy_data)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(tree!=NULL) {
+        upo_bst_node_t *max = upo_bst_max(tree);
+        if (max != NULL)
+            upo_bst_delete(tree, max, destroy_data);
+    }
 }
 
 void* upo_bst_floor(const upo_bst_t tree, const void *key)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (tree != NULL) {
+        upo_bst_node_t *node = upo_bst_floor_impl(tree->root, key, tree->key_cmp);
+        if (node!=NULL)
+            return node->key;
+    }
+    return NULL;
+}
+
+void* upo_bst_floor_impl(upo_bst_node_t *node, const void *key, upo_bst_comparator_t cmp) {
+    /* TO STUDENTS:
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(node != NULL) {
+        if(cmp(key, node->key) < 0) 
+            return upo_bst_floor_impl(node->left, key, cmp);
+        else if (cmp(key, node->key) > 0) {
+            upo_bst_node_t *floor_node = upo_bst_floor_impl(node->right, key, cmp);
+            return (floor_node != NULL) ? floor_node : node;
+        }  
+        else 
+            return node;
+    }
+    return NULL;
 }
 
 void* upo_bst_ceiling(const upo_bst_t tree, const void *key)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if (tree != NULL) {
+        upo_bst_node_t *node = upo_bst_ceiling_impl(tree->root, key, tree->key_cmp);
+        if (node!=NULL)
+            return node->key;
+    }
+    return NULL;
+}
+
+void* upo_bst_ceiling_impl(upo_bst_node_t *node, const void *key, upo_bst_comparator_t cmp) {
+    /* TO STUDENTS:
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(node != NULL) {
+        if(cmp(key, node->key) > 0) 
+            return upo_bst_ceiling_impl(node->right, key, cmp);
+        else if (cmp(key, node->key) < 0) {
+            upo_bst_node_t *floor_node = upo_bst_ceiling_impl(node->left, key, cmp);
+            return (floor_node != NULL) ? floor_node : node;
+        }  
+        else 
+            return node;
+    }
+    return NULL;
 }
 
 upo_bst_key_list_t upo_bst_keys_range(const upo_bst_t tree, const void *low_key, const void *high_key)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    upo_bst_key_list_t key_list = NULL;
+    if(tree != NULL) 
+        upo_bst_keys_range_impl(tree->root, low_key, high_key, tree->key_cmp, &key_list);
+    return key_list;
+}
+
+void upo_bst_keys_range_impl(upo_bst_node_t *node, const void *low_key, const void *high_key, upo_bst_comparator_t cmp, upo_bst_key_list_t *key_list) {
+    /* TO STUDENTS:
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(node == NULL) 
+        return;
+
+    upo_bst_keys_range_impl(node->left, low_key, high_key, cmp, key_list);
+
+    if(cmp(node->key, low_key) >= 0 && cmp(node->key, high_key) <= 0) {
+        upo_bst_key_list_node_t *list = malloc(sizeof(struct upo_bst_key_list_node_s));
+        list->key = node->key;
+        list->next = *key_list;
+        *key_list = list;
+    }
+
+    upo_bst_keys_range_impl(node->right, low_key, high_key, cmp, key_list);
 }
 
 upo_bst_key_list_t upo_bst_keys(const upo_bst_t tree)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    upo_bst_key_list_t key_list = NULL;
+    if(tree != NULL) 
+        upo_bst_keys_impl(tree->root, tree->key_cmp, &key_list);
+    return key_list;
+}
+
+void upo_bst_keys_impl(upo_bst_node_t *node, upo_bst_comparator_t cmp, upo_bst_key_list_t *key_list) {
+    /* TO STUDENTS:
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(node == NULL) 
+        return;
+
+    upo_bst_keys_impl(node->left, cmp, key_list);
+
+    upo_bst_key_list_node_t *list = malloc(sizeof(struct upo_bst_key_list_node_s));
+    list->key = node->key;
+    list->next = *key_list;
+    *key_list = list;
+
+    upo_bst_keys_impl(node->right, cmp, key_list);
 }
 
 int upo_bst_is_bst(const upo_bst_t tree, const void *min_key, const void *max_key)
 {
     /* TO STUDENTS:
-     *  Remove the following two lines and put here your implementation. */
-    fprintf(stderr, "To be implemented!\n");
-    abort();
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    int is_bst = 0;
+    if(tree != NULL) 
+        is_bst = upo_bst_is_bst_impl(tree->root, min_key, max_key, tree->key_cmp);
+    return is_bst;
 }
 
+int upo_bst_is_bst_impl(upo_bst_node_t *node, const void *min_key, const void *max_key, upo_bst_comparator_t cmp) {
+    /* TO STUDENTS:
+     *  Remove the following two lines and put here your implementation.
+     *  fprintf(stderr, "To be implemented!\n");
+     *  abort();
+     *  Implemented by https://github.com/LukeAz
+    */
+    if(node == NULL) 
+        return 1;
+    
+    int res;
+
+    if(cmp(node->key, min_key) > 0 && cmp(node->key, max_key) < 0) {
+        res = upo_bst_is_bst_impl(node->left, min_key, node -> key, cmp);
+        if(res == 1)
+            res = upo_bst_is_bst_impl(node->right, node -> key, max_key, cmp);
+        return res;
+    }
+    return 0;
+    
+}
 
 /**** EXERCISE #2 - END of EXTRA OPERATIONS ****/
 

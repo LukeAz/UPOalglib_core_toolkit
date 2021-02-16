@@ -47,7 +47,32 @@
  *    static size_t upo_quick_sort_partition(void *base, size_t lo, size_t hi, size_t size, upo_sort_comparator_t cmp);
  *  And so on.
  *
+ *  Implemented by https://github.com/LukeAz
  */
 
+static void upoMerge(void *base, size_t low, size_t mid, size_t high, size_t size, upo_sort_comparator_t cmp);
+static void upoMergeSortRec(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
+static void upoQuickSortRec(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
+static size_t upoQuickSortPartition(void *base, size_t low, size_t high, size_t size, upo_sort_comparator_t cmp);
+void upoSwap(void *a, void *b, size_t n);
+void upoCopy(void *a, void *b, size_t n);
+
+void upoSwap(void *a, void *b, size_t n) {
+    unsigned char *aa = a, *bb = b, tmp;
+
+    for(size_t i = 0; i < n; ++i) {
+        tmp = aa[i];
+        aa[i] = bb[i];
+        bb[i] = tmp;
+    }
+}
+
+void upoCopy(void *a, void *b, size_t n) {
+    unsigned char *aa = a, *bb = b;
+
+    for(size_t i = 0; i < n; ++i) {
+        aa[i] = bb[i];
+    }
+}
 
 #endif /* UPO_SORT_PRIVATE_H */

@@ -90,4 +90,15 @@ upo_bst_node_t* newNode(void *key, void *value) {
     return node;
 }
 
+/* TO STUDENTS:
+     *  Prototypes for additional bst functions
+     *  Implemented by https://github.com/LukeAz
+ */
+void* upo_bst_min_impl(upo_bst_node_t *node);
+void* upo_bst_floor_impl(upo_bst_node_t *node, const void *key, upo_bst_comparator_t cmp);
+void* upo_bst_ceiling_impl(upo_bst_node_t *node, const void *key, upo_bst_comparator_t cmp);
+void upo_bst_keys_range_impl(upo_bst_node_t *node, const void *low_key, const void *high_key, upo_bst_comparator_t cmp, upo_bst_key_list_t *key_list);
+void upo_bst_keys_impl(upo_bst_node_t *node, upo_bst_comparator_t cmp, upo_bst_key_list_t *key_list);
+int upo_bst_is_bst_impl(upo_bst_node_t *node, const void *min_key, const void *max_key, upo_bst_comparator_t cmp);
+
 #endif /* UPO_BST_PRIVATE_H */

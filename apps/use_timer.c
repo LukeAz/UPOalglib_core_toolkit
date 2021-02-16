@@ -63,9 +63,10 @@ int main(int argc, char *argv[])
 // Does a very interesting task...
 void do_something(long n)
 {
+    long value;
     while (n > 0)
     {
-        exp(sqrt(n));
+        value=exp(sqrt(n));
         --n;
     }
 }

@@ -154,16 +154,16 @@ void playlist_sort(playlist_t playlist, playlist_sorting_criterion_t order_by)
      *  abort();
      *  Implemented by https://github.com/LukeAz
     */
-    if(playlist!=NULL && order_by!=NULL) {
+    if(playlist!=NULL) {
         if(order_by == playlist_by_artist_sorting_criterion)
             upo_merge_sort(playlist->entries, playlist->size, sizeof(playlist->entries[0]), by_artist_comparator);
-        else if(order_by == playlist_by_album_sorting_criterion) {
+        else if(order_by == playlist_by_album_sorting_criterion) 
             upo_merge_sort(playlist->entries, playlist->size, sizeof(playlist->entries[0]), by_album_comparator);
-        else if(order_by == playlist_by_year_sorting_criterion) {
+        else if(order_by == playlist_by_year_sorting_criterion) 
             upo_merge_sort(playlist->entries, playlist->size, sizeof(playlist->entries[0]), by_year_comparator);
-        else if(order_by == playlist_by_track_number_sorting_criterion) {
+        else if(order_by == playlist_by_track_number_sorting_criterion)
             upo_merge_sort(playlist->entries, playlist->size, sizeof(playlist->entries[0]), by_track_number_comparator);
-        else if(order_by == playlist_by_track_title_sorting_criterion) {
+        else if(order_by == playlist_by_track_title_sorting_criterion)
             upo_merge_sort(playlist->entries, playlist->size, sizeof(playlist->entries[0]), by_track_title_comparator);
         else {
             perror("Error: invalid order paramater");

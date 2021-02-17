@@ -86,4 +86,13 @@ $ valgrind --tool=memcheck --leak-check=full ./test/test_hashtable_linprob_more
 * More exercises
 ```
 $ cd more_exercises
+$ ls
+```
+
+* Advanced Pointer (more exercises)
+```
+$ cd more_exercises
+$ cd advanced_pointer
+$ make
+$ ./advanced_pointer
 ```

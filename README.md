@@ -112,3 +112,11 @@ $ cd upo_bst_t
 $ make
 $ ./upo_bst
 ```
+
+* Sorting exercises (more exercises)
+```
+$ cd more_exercises
+$ cd upo_sort_t
+$ make
+$ ./upo_sort
+```

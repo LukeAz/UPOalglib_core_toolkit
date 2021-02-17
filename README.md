@@ -96,3 +96,11 @@ $ cd advanced_pointer
 $ make
 $ ./advanced_pointer
 ```
+
+* Upo queue (more exercises)
+```
+$ cd more_exercises
+$ cd upo_queue_t
+$ make
+$ ./upo_queue
+```

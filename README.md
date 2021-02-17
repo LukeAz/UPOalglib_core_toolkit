@@ -104,3 +104,11 @@ $ cd upo_queue_t
 $ make
 $ ./upo_queue
 ```
+
+* Binary search trees (more exercises)
+```
+$ cd more_exercises
+$ cd upo_bst_t
+$ make
+$ ./upo_bst
+```

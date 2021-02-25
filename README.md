@@ -7,6 +7,8 @@
 This project was developed in 2015 by Marco Guazzone and includes exercises to be completed for the lab portion of the course.
 It includes algorithms in C regarding stack, data sorting, binary search trees, and hash tables.
 
+The purpose is not to make other people copy these exercises, but to propose a possible solution.
+
 ## Technologies
 Project includes:
 * Stack exercises
@@ -18,8 +20,9 @@ Project includes:
 * More exercises
 	
 ## Setup and run
-To run this project, install it locally:
+* You will need a Unix environment, the gcc compiler and the valgrind debugger to check for possible memory leaks.
 
+To run this project, install it locally:
 ```
 $ git clone https://github.com/LukeAz/UPOalglib_core_toolkit.git
 $ cd UPOalglib_core_toolkit
